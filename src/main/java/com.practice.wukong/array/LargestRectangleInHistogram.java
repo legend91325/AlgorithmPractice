@@ -32,8 +32,9 @@ public class LargestRectangleInHistogram {
                 Integer rightIndex = index;
                 Integer width = stackIndex.isEmpty()?rightIndex:rightIndex-stackIndex.peek()-1;
                 Integer height = arrays.get(heightIndex);
+                System.out.println("max change max="+max+" |heightIndex="+heightIndex+" |rightIndex="+rightIndex+"|height="+height+"|width="+width);
                 max = Math.max(max,height*width);
-                System.out.printf("max change max="+max);
+
             }
         }
         System.out.printf("Max ="+max);
