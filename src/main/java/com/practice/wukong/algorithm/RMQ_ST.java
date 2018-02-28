@@ -9,6 +9,11 @@ import java.util.Arrays;
  */
 public class RMQ_ST {
 
+    /**
+     * 小于区间长度的最大的幂
+     * @param n
+     * @return
+     */
     private static int getLog(int n){
         int count = 0;
         n = n >> 1;
@@ -23,40 +28,53 @@ public class RMQ_ST {
         return 1<< n;
     }
 
-    private static int[][] minTable(int[] arrays){
+    private static void rMQ_ST(int[] arrays,int[][] minTable,int[][] maxTable){
         int size = arrays.length;
         int count = getLog(size);
-        int[][] table = new int[size][count];
         for(int i=0;i<size;i++){
-            table[i][0] = arrays[i];
+            minTable[i][0] = arrays[i];
+            minTable[i][0] = arrays[i];
         }
-        int power1 = 1;
-        int power2 = 2;
-        for(int i=1;i<count;i++,power1 <<= 1,power2<<= 1){
-            for(int j=0;j<size+1-power2;j++){
-                table[i][j] = Math.min(table[i-1][j], table[i-1][j+power1]);
+
+        int maxCount = getLog(Integer.MAX_VALUE);
+        for(int j=1;j< 31;j++){
+            for(int i=0;i<= size;i++){
+                if(i+getPower(j)-1<= size){
+                    try {
+                        minTable[i][j] = Math.min(minTable[i][j-1], minTable[i+getPower(j-1)][j-1]);
+                        maxTable[i][j] = Math.max(minTable[i][j-1], minTable[i+getPower(j-1)][j-1]);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        System.out.println("i="+i+"|j="+j);
+                    }
+                }
+
             }
         }
-        return table;
     }
 
-    public static int queryMin(int left,int right,int[][] table){
+    public static int queryMin(int left,int right,int[][] minTable){
         int len = right - left + 1;
         int log = getLog(len);
-        int t = getPower(log);
 
-        int min = Math.min(table[log][left-1], table[log][right-t]);
+        int min = Math.min(minTable[left][log], minTable[right-getPower(log)+1][log]);
+        return min;
+    }
+
+    public static int queryMax(int left,int right,int[][] maxTable){
+        int len = right - left + 1;
+        int log = getLog(len);
+
+        int min = Math.min(maxTable[left][log], maxTable[right-getPower(log)+1][log]);
         return min;
     }
 
     public static void main(String[] args) {
         int[] arrays = new int[]{1,2,9,22,5,6,9,3,1,4,7,11,13,16,65,20,10,9,8};
-        int[][] table = minTable(arrays);
-        for(int i=0;i<table.length;i++){
-            System.out.println(Arrays.toString(table[i]));
-        }
-
-        int minValue = queryMin(3,4,table);
+        int[][] minTable = new int[arrays.length][getLog(arrays.length)+1];
+        int[][] maxTable = new int[arrays.length][getLog(arrays.length)+1];
+        rMQ_ST(arrays,minTable,maxTable);
+        int minValue = queryMin(3,4,minTable);
         System.out.println("minValue="+minValue);
     }
 }
