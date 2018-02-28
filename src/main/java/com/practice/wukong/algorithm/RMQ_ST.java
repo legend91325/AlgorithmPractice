@@ -1,7 +1,7 @@
 package com.practice.wukong.algorithm;
 
 /**
- *
+ * ST稀疏表
  * http://smwlover.github.io/blog/2016/05/23/rmq-st/
  * Created by WuKong on 2018/2/27.
  */
@@ -31,11 +31,10 @@ public class RMQ_ST {
         int count = getLog(size);
         for(int i=0;i<size;i++){
             minTable[i][0] = arrays[i];
-            minTable[i][0] = arrays[i];
+            maxTable[i][0] = arrays[i];
         }
 
-        int maxCount = getLog(Integer.MAX_VALUE);
-        for(int j=1;j< maxCount;j++){
+        for(int j=1;j< count+1;j++){
             for(int i=0;i< size;i++){
                 if(i+getPower(j)-1< size){
                     try {
@@ -65,8 +64,8 @@ public class RMQ_ST {
         int len = right - left + 1;
         int log = getLog(len);
 
-        int min = Math.max(maxTable[left][log], maxTable[right-getPower(log)+1][log]);
-        return min;
+        int max = Math.max(maxTable[left][log], maxTable[right-getPower(log)+1][log]);
+        return max;
     }
 
     public static void main(String[] args) {
@@ -74,8 +73,8 @@ public class RMQ_ST {
         int[][] minTable = new int[arrays.length][getLog(arrays.length)+1];
         int[][] maxTable = new int[arrays.length][getLog(arrays.length)+1];
         rMQ_ST(arrays,minTable,maxTable);
-        int left = 12;
-        int right = 15;
+        int left = 2;
+        int right = 11;
         System.out.print("[");
         for(int i=left;i<=right;i++){
             System.out.print(arrays[i]+",");
