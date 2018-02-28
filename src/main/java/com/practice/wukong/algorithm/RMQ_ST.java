@@ -1,7 +1,5 @@
 package com.practice.wukong.algorithm;
 
-import java.util.Arrays;
-
 /**
  *
  * http://smwlover.github.io/blog/2016/05/23/rmq-st/
@@ -37,15 +35,17 @@ public class RMQ_ST {
         }
 
         int maxCount = getLog(Integer.MAX_VALUE);
-        for(int j=1;j< 31;j++){
-            for(int i=0;i<= size;i++){
-                if(i+getPower(j)-1<= size){
+        for(int j=1;j< maxCount;j++){
+            for(int i=0;i< size;i++){
+                if(i+getPower(j)-1< size){
                     try {
                         minTable[i][j] = Math.min(minTable[i][j-1], minTable[i+getPower(j-1)][j-1]);
-                        maxTable[i][j] = Math.max(minTable[i][j-1], minTable[i+getPower(j-1)][j-1]);
+                        maxTable[i][j] = Math.max(maxTable[i][j-1], maxTable[i+getPower(j-1)][j-1]);
                     } catch (Exception e) {
+                        System.out.println(e.getMessage());
                         e.printStackTrace();
-                        System.out.println("i="+i+"|j="+j);
+                        System.out.println("i="+i+"|j="+j+"|size="+size);
+                        throw  e;
                     }
                 }
 
@@ -65,7 +65,7 @@ public class RMQ_ST {
         int len = right - left + 1;
         int log = getLog(len);
 
-        int min = Math.min(maxTable[left][log], maxTable[right-getPower(log)+1][log]);
+        int min = Math.max(maxTable[left][log], maxTable[right-getPower(log)+1][log]);
         return min;
     }
 
@@ -74,7 +74,16 @@ public class RMQ_ST {
         int[][] minTable = new int[arrays.length][getLog(arrays.length)+1];
         int[][] maxTable = new int[arrays.length][getLog(arrays.length)+1];
         rMQ_ST(arrays,minTable,maxTable);
-        int minValue = queryMin(3,4,minTable);
+        int left = 12;
+        int right = 15;
+        System.out.print("[");
+        for(int i=left;i<=right;i++){
+            System.out.print(arrays[i]+",");
+        }
+        System.out.println("]");
+        int minValue = queryMin(left,right,minTable);
+        int maxValue = queryMax(left,right,maxTable);
         System.out.println("minValue="+minValue);
+        System.out.println("maxValue="+maxValue);
     }
 }
