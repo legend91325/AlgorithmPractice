@@ -26,7 +26,7 @@ public class RMQ_ST {
         return 1<< n;
     }
 
-    private static void rMQ_ST(int[] arrays,int[][] minTable,int[][] maxTable){
+    private static void rMQ_ST(int[] arrays,int[][] minTable,int[][] maxTable) throws Exception {
         int size = arrays.length;
         int count = getLog(size);
         for(int i=0;i<size;i++){
@@ -68,7 +68,7 @@ public class RMQ_ST {
         return max;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         int[] arrays = new int[]{1,2,9,22,5,6,9,3,1,4,7,11,13,16,65,20,10,9,8};
         int[][] minTable = new int[arrays.length][getLog(arrays.length)+1];
         int[][] maxTable = new int[arrays.length][getLog(arrays.length)+1];
