@@ -32,7 +32,7 @@ public class JohnsonTrotter {
                     maxNode = nodes[i];
                 }
             }else if(Direct.RIGHT.equals(nodes[i].direct)
-                    &&i<nodes.length&&nodes[i].value>nodes[i+1].value){
+                    &&i<nodes.length-1&&nodes[i].value>nodes[i+1].value){
                 if(maxNode==null||nodes[i].value>maxNode.value){
                     maxNode = nodes[i];
                 }
@@ -43,19 +43,18 @@ public class JohnsonTrotter {
     public static List<String> algorithm(Node[] nodes){
         Node moveNode = null;
         List<String> allArranges = new ArrayList<String>();
-        System.out.println(toShownString(nodes));
         allArranges.add(toShownString(nodes));
         //循环条件 存在可移动的节点（取最大的）
         while ((moveNode = getMaxMoveNode(nodes))!=null){
             nodes = switchPositonAndDirect(nodes,moveNode);
             allArranges.add(toShownString(nodes));
-            System.out.println(toShownString(nodes));
         }
         return allArranges;
     }
 
 
     private static Node[] switchPositonAndDirect(Node[] nodes,Node moveNode){
+        Boolean alreadySwitched = Boolean.FALSE;
         for(int i=0;i<nodes.length;i++){
             if(nodes[i].value>moveNode.value){
                 //方向更改
@@ -64,11 +63,15 @@ public class JohnsonTrotter {
                 }else {
                     nodes[i].direct = Direct.LEFT;
                 }
-            }else if(nodes[i].value==moveNode.value){
+            }else if(nodes[i].value==moveNode.value&&!alreadySwitched){
+                alreadySwitched = Boolean.TRUE;
                 if(Direct.LEFT.equals(moveNode.direct)){
                     //互换
                     nodes[i] = nodes[i-1];
                     nodes[i-1] = moveNode;
+                }else {
+                    nodes[i] = nodes[i+1];
+                    nodes[i+1] = moveNode;
                 }
             }
         }
