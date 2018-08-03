@@ -1,4 +1,4 @@
-package com.practice.wukong.array;
+package com.practice.wukong;
 
 import java.util.*;
 
