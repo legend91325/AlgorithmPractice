@@ -16,11 +16,31 @@ public class QuickSort {
 
     public static void quicksort(int[] arrays,int start,int end){
         if(start<end){
-            int p = partition(arrays,start,end);
+            int p = partition2(arrays,start,end);
             quicksort(arrays,start,p-1);
             quicksort(arrays,p+1,end);
         }
 
+    }
+
+    static int partition2(int[] arrays,int start,int end){
+        int p = arrays[start];
+        int left = start;
+        int right = end;
+        while (left<right){
+            while (arrays[right]>=p&&right>left){
+                right--;
+            }
+            while (arrays[left]<=p&&right>left){
+                left++;
+            }
+            int temp = arrays[left];
+            arrays[left] = arrays[right];
+            arrays[right] = temp;
+        }
+        arrays[start] = arrays[left];
+        arrays[left] = p;
+        return left;
     }
 
     static int partition(int[] arrays,int start,int end){
