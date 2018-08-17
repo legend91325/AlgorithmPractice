@@ -128,6 +128,7 @@ public class AvlTree <T extends Comparable<T>>{
             printTree(node.rightNode);
         }
 
+
     }
 
     public static void main(String[] args) {
