@@ -124,7 +124,6 @@ public class AvlTree <T extends Comparable<T>>{
     public void printTree(AvlNode<T> node){
         if(node!=null){
             System.out.print(node.data);
-            System.out.print("\n");
             printTree(node.leftNode);
             printTree(node.rightNode);
         }
